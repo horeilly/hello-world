@@ -3,8 +3,6 @@
 
 #sudo apt install nginx
 
-sudo cp hello-world.service /etc/systemd/system/hello-world.service
-
 printf "[Unit]\n" | sudo tee /etc/systemd/system/hello-world.service > /dev/null
 printf "Description=uWSGI instance to serve hello-world\n" | sudo tee -a /etc/systemd/system/hello-world.service > /dev/null
 printf "After=network.target\n" | sudo tee -a /etc/systemd/system/hello-world.service > /dev/null
