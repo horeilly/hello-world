@@ -12,7 +12,7 @@ class Bond(Resource):
 
     @staticmethod
     def get(bond_name):
-        return {bond_name: bonds[bond_name]}
+        return {"place": "holder"} 
 
     @staticmethod
     def post(bond_name):
