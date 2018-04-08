@@ -3,14 +3,11 @@ import lib.route_functions as rf
 import lib.utils
 
 app = Flask(__name__)
-#
-# db_params = {
-#   "url": lib.utils.get_env_variable("POSTGRES_URL"),
-#   "user": lib.utils.get_env_variable("POSTGRES_USER"),
-#   "pw": lib.utils.get_env_variable("POSTGRES_PW"),
-#   "db": lib.utils.get_env_variable("POSTGRES_DB")
-# }
-# db_url = "postgresql+psycopg2://{user}:{pw}@{url}/{db}".format(**db_params)
+
+
+@app.route("/")
+def hello():
+    return {"hello": "world"}
 
 
 @app.route("/bonds")
