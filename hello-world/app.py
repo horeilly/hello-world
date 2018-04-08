@@ -1,5 +1,6 @@
 from flask import Flask, request
 from flask_restful import Resource, Api
+import lib.load_data as ld
 
 app = Flask(__name__)
 api = Api(app)
@@ -12,13 +13,14 @@ class Bond(Resource):
 
     @staticmethod
     def get(bond_name):
-        return {"place": "holder"} 
+        return ld.retrieve_bond(bond_name)
 
     @staticmethod
     def post(bond_name):
-        bonds[bond_name] = request.json
-        bonds[bond_name]["coupon_payments"] = bonds[bond_name]["principal"] * bonds[bond_name]["coupon"]
-        return {bond_name: bonds[bond_name]}
+        data = request.json
+        data["company"] = bond_name.upper()
+        ld.load_bond(data)
+        return data
 
 
 api.add_resource(Bond, "/new/bond/<string:bond_name>")
