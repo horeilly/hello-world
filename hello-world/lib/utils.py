@@ -2,15 +2,6 @@ import os
 import psycopg2
 
 
-def get_conn_string_parameters():
-    return {
-      "dbname": "api",
-      "user": os.environ["USER"],
-      "host": "127.0.0.1",
-      "password": ""
-    }
-
-
 def get_env_variable(name):
     try:
         return os.environ[name]
@@ -19,19 +10,29 @@ def get_env_variable(name):
                        "".format(name))
 
 
-# FIXME: Handle this better
-def postgres_query(query, data=True):
-    dsn_params = get_conn_string_parameters()
+def connect_to_postgres(db):
+    dsn_params = {
+      "dbname": db,
+      "user": get_env_variable("POSTGRES_USER"),
+      "host": get_env_variable("POSTGRES_HOST"),
+      "password": get_env_variable("POSTGRES_PW")
+    }
     dsn = "dbname='{dbname}' user='{user}' host='{host}' password='{password}'"
     conn = psycopg2.connect(dsn.format(**dsn_params))
+    return conn
+
+
+# FIXME: Handle this better
+def postgres_query(query):
+    conn = connect_to_postgres("api")
+    conn.set_session(autocommit=True)
     cur = conn.cursor()
     cur.execute(query)
-    if data:
+    try:
         rows = cur.fetchall()
-    conn.commit()
+        columns = [col[0] for col in cur.description]
+    except psycopg2.ProgrammingError:
+        rows, columns = None, None
     cur.close()
     conn.close()
-    if data:
-        return rows
-    else:
-        return None
+    return rows, columns
