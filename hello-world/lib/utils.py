@@ -11,6 +11,15 @@ def get_conn_string_parameters():
     }
 
 
+def get_env_variable(name):
+    try:
+        return os.environ[name]
+    except KeyError:
+        raise KeyError("Expected variable {} to be in the environment."
+                       "".format(name))
+
+
+# FIXME: Handle this better
 def postgres_query(query, data=True):
     dsn_params = get_conn_string_parameters()
     dsn = "dbname='{dbname}' user='{user}' host='{host}' password='{password}'"

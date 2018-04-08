@@ -1,10 +1,16 @@
 import lib.utils
 
 
+def get_all_bonds():
+    query = "SELECT * FROM bonds;"
+    rows = lib.utils.postgres_query(query)
+    return rows
+
+
 def retrieve_bond(bond_name):
     query = "SELECT * FROM bonds WHERE LOWER(company) = '{}'".format(bond_name)
     rows = lib.utils.postgres_query(query)
-    rows = [(row[0].strftime("%Y-%m-%d"),) + row[1:] for row in rows]
+    rows = [(row[0],) + (row[1].strftime("%Y-%m-%d"),) + row[2:] for row in rows]
     return rows
 
 
