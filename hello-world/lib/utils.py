@@ -1,21 +1,21 @@
+import json
 import os
 import psycopg2
 
 
-def get_env_variable(name):
-    try:
-        return os.environ[name]
-    except KeyError:
-        raise KeyError("Expected variable {} to be in the environment."
-                       "".format(name))
-
-
 def connect_to_postgres(db):
+    creds_dir = os.path.dirname(
+        os.path.dirname(
+            os.path.abspath(__file__)))
+    creds_path = os.path.join(creds_dir, "credentials.json")
+    with open(creds_path, "r") as f:
+        creds = json.load(f)
+
     dsn_params = {
       "dbname": db,
-      "user": get_env_variable("POSTGRES_USER"),
-      "host": get_env_variable("POSTGRES_HOST"),
-      "password": get_env_variable("POSTGRES_PW")
+      "user": creds["POSTGRES_USER"],
+      "host": creds["POSTGRES_HOST"],
+      "password": creds["POSTGRES_PW"]
     }
     dsn = "dbname='{dbname}' user='{user}' host='{host}' password='{password}'"
     conn = psycopg2.connect(dsn.format(**dsn_params))
