@@ -1,5 +1,7 @@
 .DS_Store
 *.pyc
+credentials.json
+
 .idea/
 env/
 
