@@ -32,5 +32,5 @@ def load_bond(data):
         "  {_90_day}"
         ")".format(**data)
     )
-    lib.utils.postgres_query(query, False)
+    lib.utils.postgres_query(query)
     return data

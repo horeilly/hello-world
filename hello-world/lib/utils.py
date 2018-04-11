@@ -22,7 +22,6 @@ def connect_to_postgres(db):
     return conn
 
 
-# FIXME: Handle this better
 def postgres_query(query):
     conn = connect_to_postgres("api")
     conn.set_session(autocommit=True)
