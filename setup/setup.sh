@@ -33,6 +33,12 @@ printf "        uwsgi_pass unix:///home/$(whoami)/hello-world/hello-world/hello-
 printf "    }\n" | sudo tee -a /etc/nginx/sites-available/hello-world > /dev/null
 printf "}\n" | sudo tee -a /etc/nginx/sites-available/hello-world > /dev/null
 
+echo "{" > /home/ubuntu/hello-world/hello-world/credentials.json
+echo "  \"POSTGRES_USER\": \"$(whoami)\"," >> /home/ubuntu/hello-world/hello-world/credentials.json
+echo "  \"POSTGRES_PW\": \"\"," >> /home/ubuntu/hello-world/hello-world/credentials.json
+echo "  \"POSTGRES_HOST\": \"127.0.0.1\"" >> /home/ubuntu/hello-world/hello-world/credentials.json
+echo "}" >> /home/ubuntu/hello-world/hello-world/credentials.json
+
 if ! [[ -L /etc/nginx/sites-enabled/hello-world ]]
 then
     sudo ln -s /etc/nginx/sites-available/hello-world /etc/nginx/sites-enabled
@@ -45,4 +51,3 @@ if ! sudo ufw show added | grep -q "Nginx Full"
 then
     sudo ufw allow "Nginx Full"
 fi
-
