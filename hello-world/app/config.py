@@ -14,10 +14,13 @@ class Config(object):
     with open(creds_path, "r") as f:
         creds = json.load(f)
 
-    SQLALCHEMY_DATABASE_URI = "sqlite:///" + os.path.join(db_path, "app.db")
+    POSTGRES_USER = creds["POSTGRES_USER"]
+    POSTGRES_PW = creds["POSTGRES_PW"]
+    POSTGRES_HOST = creds["POSTGRES_HOST"]
+    POSTGRES_DB = "api"
+
+    # SQLALCHEMY_DATABASE_URI = "sqlite:///" + os.path.join(db_path, "app.db")
+    SQLALCHEMY_DATABASE_URI = "postgresql+psycopg2://{}:{}@{}/{}".format(
+        POSTGRES_USER, POSTGRES_PW, POSTGRES_HOST, POSTGRES_DB)
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     SECRET_KEY = ""
-    POSTGRES_DB = "api"
-    POSTGRES_USER = creds["POSTGRES_USER"]
-    POSTGRES_HOST = creds["POSTGRES_HOST"]
-    POSTGRES_PW = creds["POSTGRES_PW"]

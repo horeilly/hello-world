@@ -16,6 +16,8 @@ class User(db.Model):
 
 class Bond(db.Model):
 
+    __tablename__ = "bonds"
+
     id = db.Column(db.Integer, primary_key=True)
     date = db.Column(db.DateTime)
     company = db.Column(db.String(4))
