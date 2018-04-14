@@ -35,3 +35,7 @@ def postgres_query(query):
     cur.close()
     conn.close()
     return rows, columns
+
+
+def convert_model_to_json(data):
+    return [json.loads(repr(row)) for row in data]
